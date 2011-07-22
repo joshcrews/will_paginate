@@ -99,15 +99,15 @@ module WillPaginate
         end
 
         unless options[:html] == false
-          b  = '<b>'
-          eb = '</b>'
+          b  = '<span>'
+          eb = '</span>'
           sp = '&nbsp;'
         else
           b  = eb = ''
           sp = ' '
         end
         
-        if collection.total_pages < 2
+        inner_html = if collection.total_pages < 2
           case collection.size
           when 0; "No #{plural_name} found"
           when 1; "Displaying #{b}1#{eb} #{entry_name}"
@@ -120,6 +120,7 @@ module WillPaginate
             collection.total_entries
           ]
         end
+        content_tag(:div, inner_html, :id => 'page-entries-info')
       end
     end
   end
